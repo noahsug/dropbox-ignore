@@ -22,10 +22,6 @@ const options = yargs(process.argv.slice(2))
 
 const rootDir = options.rootDir.replace('~', os.homedir());
 
-function ignorePath(filepath) {
-  execSync(`xattr -w com.dropbox.ignored 1 ${filepath}`);
-}
-
 function getNodeModuleDirs() {
   const files = String(
     execSync(`rg --files -g '**/node_modules/**' ${rootDir} -u`, {
@@ -39,6 +35,10 @@ function getNodeModuleDirs() {
     return file.replace(/(\b|\/)node_modules(\b|\/).*/, '$1node_modules');
   });
   return [...new Set(nodeModuleDirsWithDupes)];
+}
+
+function ignorePath(filepath) {
+  execSync(`xattr -w com.dropbox.ignored 1 ${filepath}`);
 }
 
 (() => {
