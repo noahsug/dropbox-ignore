@@ -1,8 +1,8 @@
 # Dropbox Ignore
 
-> Ignore Dropbox files (macOS only)
+> Ignore generated files in Dropbox (e.g. node_modules), freeing up space
 
-## Installation
+## Installation (macOS only)
 
 1. Install ripgrep
 

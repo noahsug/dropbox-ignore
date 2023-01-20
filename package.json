@@ -1,11 +1,15 @@
 {
   "name": "dropbox-ignore",
   "version": "1.0.0",
-  "description": "ignore unneeded Dropbox files",
+  "description": "Ignore generated files in Dropbox (e.g. node_modules), freeing up space",
   "main": "index.js",
   "type": "module",
-  "author": "noahsug@gmail.com",
+  "author": "Noah Sugarman <noahsug@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noahsug/dropbox-ignore.git"
+  },
   "scripts": {
     "preview": "node index.js -D",
     "start": "node index.js"
