@@ -1,8 +1,6 @@
 import { execSync } from 'child_process';
 import yargs from 'yargs';
 import os from 'os';
-import path from 'path';
-import chalk from 'chalk';
 
 const options = yargs(process.argv.slice(2))
   .command('$0 [rootDir]', `tell Dropbox to ignore node_module files`, (cmd) => {
@@ -56,33 +54,3 @@ function getNodeModuleDirs() {
     }
   });
 })();
-
-// NOTE: I tried reading files ignored by git, but it includes files not yet checked in
-//
-// function findGitIgnoreFiles() {
-//   return String(execSync(`rg --files -g '.gitignore' ${rootDir}`)).split('\n');
-// }
-//
-// function getIgnoredFiles(gitignoreFile) {
-//   const gitRoot = path.dirname(gitignoreFile);
-//   try {
-//     // > output:
-//     // ?? .prettierrc
-//     // ?? node_modules
-//     return String(execSync(`git status --ignored --porcelain`))
-//       .split('\n')
-//       .map((line) => line.split(' ')[1])
-//       .map((relativeFile) => path.join(gitRoot, relativeFile));
-//   } catch (e) {
-//     console.error('Failed to get ignored files from', gitRoot);
-//     console.error(chalk.gray(e));
-//   }
-// }
-//
-//  const gitignoreFiles = findGitIgnoreFiles();
-//  console.log(`found ${gitignoreFiles.length} .gitignore files`);
-//
-//  const ignoredFilesWithDups = gitignoreFiles.flatMap((gitignoreFile) => {
-//    return getIgnoredFiles(gitignoreFile);
-//  });
-//  const ignoredFiles = [...new Set(ignoredFilesWithDups)];
