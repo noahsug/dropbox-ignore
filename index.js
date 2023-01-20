@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import yargs from 'yargs';
 import os from 'os';
+import chalk from 'chalk';
 
 const options = yargs(process.argv.slice(2))
   .command('$0 [rootDir]', `tell Dropbox to ignore node_module files`, (cmd) => {
@@ -41,16 +42,19 @@ function getNodeModuleDirs() {
 }
 
 (() => {
-  if (options.dryrun) console.log('DRY RUN');
+  if (options.dryrun) {
+    console.log(chalk.yellow('Dry run, no changes will be made'));
+  }
 
-  console.log('finding node_module directories...');
+  console.log('Finding node_module directories...');
   const nodeModuleDirs = getNodeModuleDirs();
 
-  console.log(`telling Dropbox to ignore ${nodeModuleDirs.length} files:`);
   nodeModuleDirs.forEach((nodeModuleDir) => {
-    console.log(nodeModuleDir);
+    console.log(chalk.blue(nodeModuleDir));
     if (!options.dryrun) {
       ignorePath(nodeModuleDir);
     }
   });
+
+  console.log(`Ignored ${nodeModuleDirs.length} files.`);
 })();

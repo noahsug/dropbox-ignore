@@ -6,6 +6,10 @@
   "type": "module",
   "author": "noahsug@gmail.com",
   "license": "MIT",
+  "scripts": {
+    "test": "node index.js -D",
+    "start": "node index.js"
+  },
   "devDependencies": {
     "chalk": "^5.2.0",
     "execa": "^6.1.0",
