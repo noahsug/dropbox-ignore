@@ -56,5 +56,9 @@ function getNodeModuleDirs() {
     }
   });
 
-  console.log(`Ignored ${nodeModuleDirs.length} files.`);
+  if (options.dryrun) {
+    console.log(`Found ${nodeModuleDirs.length} files to ignore.`);
+  } else {
+    console.log(`Ignored ${nodeModuleDirs.length} files.`);
+  }
 })();

@@ -7,7 +7,7 @@
   "author": "noahsug@gmail.com",
   "license": "MIT",
   "scripts": {
-    "test": "node index.js -D",
+    "preview": "node index.js -D",
     "start": "node index.js"
   },
   "devDependencies": {
