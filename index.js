@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import yargs from 'yargs';
 import os from 'os';
 import chalk from 'chalk';
+import inquirer from 'inquirer';
 
 const options = yargs(process.argv.slice(2))
   .command('$0 [rootDir]', `tell Dropbox to ignore node_module files`, (cmd) => {
@@ -10,13 +11,6 @@ const options = yargs(process.argv.slice(2))
       default: '~/Dropbox',
       type: 'string',
     });
-  })
-  .options({
-    dryrun: {
-      alias: 'D',
-      type: 'boolean',
-      describe: 'log without making changes',
-    },
   })
   .help().argv;
 
@@ -42,24 +36,45 @@ function ignorePath(filepath) {
   execSync(`xattr -w com.dropbox.ignored 1 ${filepath}`);
 }
 
-(() => {
-  if (options.dryrun) {
-    console.log(chalk.yellow('Dry run, no changes will be made'));
-  }
+function isAlreadyIgnored(filepath) {
+  const result = String(execSync(`xattr -l ${filepath}`));
+  return result.includes('com.dropbox.ignored: 1');
+}
 
-  console.log('Finding node_module directories...');
+(async () => {
+  console.log('Finding node_module directories in', chalk.blue(options.rootDir), '...');
   const nodeModuleDirs = getNodeModuleDirs();
 
-  nodeModuleDirs.forEach((nodeModuleDir) => {
-    console.log(chalk.blue(nodeModuleDir));
-    if (!options.dryrun) {
-      ignorePath(nodeModuleDir);
-    }
-  });
+  const ignoredDirs = new Set(nodeModuleDirs.filter(isAlreadyIgnored));
+  const dirsToIgnore = nodeModuleDirs.filter((dir) => !ignoredDirs.has(dir));
 
-  if (options.dryrun) {
-    console.log(`Found ${nodeModuleDirs.length} files to ignore.`);
-  } else {
-    console.log(`Ignored ${nodeModuleDirs.length} files.`);
+  if (ignoredDirs.size > 0) {
+    console.log('Found', ignoredDirs.size, 'already ignored file(s):');
+    for (const dir of ignoredDirs) {
+      console.log(chalk.blue(dir));
+    }
+  }
+
+  if (dirsToIgnore.length > 0) {
+    console.log('\nFound', dirsToIgnore.length, 'file(s) to ignore:');
+    for (const dir of dirsToIgnore) {
+      console.log(chalk.blue(dir));
+    }
+
+    console.log('');
+    const { shouldIgnoreFiles } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'shouldIgnoreFiles',
+        message: `Ignore these ${dirsToIgnore.length} file(s)?`,
+      },
+    ]);
+
+    if (shouldIgnoreFiles) {
+      for (const dir of dirsToIgnore) {
+        ignorePath(dir);
+      }
+      console.log(`Ignored ${dirsToIgnore.length} file(s).`);
+    }
   }
 })();

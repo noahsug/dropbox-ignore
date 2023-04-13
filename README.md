@@ -20,7 +20,6 @@ yarn install
 
 ```sh
 cd dropbox-ignore
-yarn preview # preview changes
 yarn start
 ```
 

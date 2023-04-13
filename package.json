@@ -11,12 +11,14 @@
     "url": "https://github.com/noahsug/dropbox-ignore.git"
   },
   "scripts": {
-    "preview": "node index.js -D",
     "start": "node index.js"
   },
   "devDependencies": {
     "chalk": "^5.2.0",
     "execa": "^6.1.0",
     "yargs": "^17.6.2"
+  },
+  "dependencies": {
+    "inquirer": "^9.1.5"
   }
 }
