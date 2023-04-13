@@ -18,16 +18,10 @@ yarn install
 
 ## Usage
 
-Preview changes
-
 ```sh
-yarn preview
-```
-
-Tell Dropbox to ignore generated files
-
-```sh
+cd dropbox-ignore
+yarn preview # preview changes
 yarn start
 ```
 
-Note: this assumes your Dropbox path is `~/Dropbox`
+Note: dropbox-ignore assumes your Dropbox path is `~/Dropbox`

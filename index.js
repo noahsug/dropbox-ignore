@@ -31,6 +31,7 @@ function getNodeModuleDirs() {
     .split('\n')
     .filter(Boolean);
 
+  // "my-project/node_modules/jest/package.json" -> "my-project/node_modules"
   const nodeModuleDirsWithDupes = files.map((file) => {
     return file.replace(/(\b|\/)node_modules(\b|\/).*/, '$1node_modules');
   });
