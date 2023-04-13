@@ -20,7 +20,7 @@ yarn install
 
 ```sh
 cd dropbox-ignore
-yarn start
+yarn start # then follow the prompts
 ```
 
 Note: dropbox-ignore assumes your Dropbox path is `~/Dropbox`
