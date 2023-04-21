@@ -21,10 +21,22 @@ const options = yargs(process.argv.slice(2))
 const cwd = options.rootDir.replace('~', os.homedir());
 
 async function getNodeModuleDirs(onProgress) {
-  const rg = spawn('rg', ['--files', '-g', '**/node_modules/*', '-u'], {
-    cwd,
-    maxBuffer: 1024 * 1024 * 1024, // 1 gig
-  });
+  const rg = spawn(
+    'rg',
+    [
+      '--files',
+      '-g',
+      '**/node_modules/*/package.json',
+      // improve performance by ignoring nested node_module dirs
+      '-g',
+      '!**/node_modules/**/node_modules/**',
+      '-u',
+    ],
+    {
+      cwd,
+      maxBuffer: 1024 * 1024 * 1024, // 1 gig
+    },
+  );
 
   let data = '';
   let lineCount = 0;
