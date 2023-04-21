@@ -13,12 +13,10 @@
   "scripts": {
     "start": "node index.js"
   },
-  "devDependencies": {
-    "chalk": "^5.2.0",
-    "execa": "^6.1.0",
-    "yargs": "^17.6.2"
-  },
   "dependencies": {
-    "inquirer": "^9.1.5"
+    "chalk": "^5.2.0",
+    "inquirer": "^9.1.5",
+    "ora": "^6.3.0",
+    "yargs": "^17.6.2"
   }
 }
